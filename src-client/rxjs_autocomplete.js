@@ -10,13 +10,11 @@ const queries$ = keyUps$
         .map(e => e.target.value)
         .distinctUntilChanged()
         .debounceTime(250)
+        .mergeMap(query => getItems(query)) //flatmap
 
-queries$.subscribe(query => {
-  getItems(query)
-    .then(items => {
-      $results.empty();
-      $results.append(items.map( r => $('<li />').text(r) ))
-    })
+queries$.subscribe(items => {
+  $results.empty();
+  $results.append(items.map( r => $('<li />').text(r) ))
 })
 
 function getItems(title){
