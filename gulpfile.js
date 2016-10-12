@@ -8,7 +8,7 @@ var gulp = require("gulp"),
 	babelify = require("babelify"),
 	path = require("path"),
 	fs = require("fs");
-	
+
 gulp.task("scripts:server", () => {
 	return gulp.src("./src-server/**/*.js")
 		.pipe($.cached("server"))
@@ -26,10 +26,10 @@ gulp.task("watch:scripts:client", () => {
 		const file = files[i];
 		if (path.extname(file) !== ".js")
 			continue;
-			
+
 		initBundlerWatch(path.join("src-client", file));
 	}
-	
+
 	return gulp.watch("./src-client/**/*.js")
 		.on("change", initBundlerWatch);
 });
@@ -42,13 +42,13 @@ let bundlers = {};
 function initBundlerWatch(file) {
 	if (bundlers.hasOwnProperty(file))
 		return;
-		
+
 	const bundler = createBundler(file);
 	bundlers[file] = bundler;
-	
+
 	const watcher = watchify(bundler);
 	const filename = path.basename(file);
-	
+
 	function bundle() {
 		return bundler
 			.bundle()
@@ -56,10 +56,10 @@ function initBundlerWatch(file) {
 			.pipe(source(filename))
 			.pipe(gulp.dest("./public/build"));
 	}
-	
+
 	watcher.on("update", bundle);
 	watcher.on("time", time => console.log(`Built client in ${time}ms`));
-	
+
 	bundle();
 }
 

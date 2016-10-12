@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "nodemon": "nodemon --watch build"
+    "nodemon": "nodemon --watch build",
+    "start": "gulp watch:scripts"
   },
   "author": "",
   "license": "ISC",
